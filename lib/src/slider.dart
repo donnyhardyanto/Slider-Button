@@ -5,7 +5,7 @@ import 'shimmer.dart';
 
 class SliderButton extends StatefulWidget {
   ///To make button more customizable add your child widget
-  final Widget child;
+  final Widget? child;
 
   ///Sets the radius of corners of a button.
   final double radius;
@@ -44,8 +44,9 @@ class SliderButton extends StatefulWidget {
   final double dismissThresholds;
 
   final bool disable;
+
   SliderButton({
-    @required this.action,
+    required this.action,
     this.radius = 100,
     this.boxShadow = const BoxShadow(
       color: Colors.black,
@@ -82,7 +83,7 @@ class SliderButton extends StatefulWidget {
 }
 
 class _SliderButtonState extends State<SliderButton> {
-  bool flag;
+  late bool flag;
 
   @override
   void initState() {
@@ -104,10 +105,7 @@ class _SliderButtonState extends State<SliderButton> {
   Widget _control() => Container(
         height: widget.height,
         width: widget.width,
-        decoration: BoxDecoration(
-            color:
-                widget.disable ? Colors.grey.shade700 : widget.backgroundColor,
-            borderRadius: BorderRadius.circular(widget.radius)),
+        decoration: BoxDecoration(color: widget.disable ? Colors.grey.shade700 : widget.backgroundColor, borderRadius: BorderRadius.circular(widget.radius)),
         alignment: Alignment.centerLeft,
         child: Stack(
           alignment: Alignment.centerLeft,
@@ -116,8 +114,7 @@ class _SliderButtonState extends State<SliderButton> {
               alignment: widget.alignLabel,
               child: widget.shimmer && !widget.disable
                   ? Shimmer.fromColors(
-                      baseColor:
-                          widget.disable ? Colors.grey : widget.baseColor,
+                      baseColor: widget.disable ? Colors.grey : widget.baseColor,
                       highlightColor: widget.highlightedColor,
                       child: widget.label,
                     )
@@ -138,13 +135,9 @@ class _SliderButtonState extends State<SliderButton> {
                           Container(
                             height: widget.buttonSize,
                             width: widget.buttonSize,
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  widget.boxShadow,
-                                ],
-                                color: Colors.grey,
-                                borderRadius:
-                                    BorderRadius.circular(widget.radius)),
+                            decoration: BoxDecoration(boxShadow: [
+                              widget.boxShadow,
+                            ], color: Colors.grey, borderRadius: BorderRadius.circular(widget.radius)),
                             child: Center(child: widget.icon),
                           ),
                     ),
@@ -152,9 +145,7 @@ class _SliderButtonState extends State<SliderButton> {
                 : Dismissible(
                     key: Key("cancel"),
                     direction: DismissDirection.startToEnd,
-                    dismissThresholds: {
-                      DismissDirection.startToEnd: widget.dismissThresholds
-                    },
+                    dismissThresholds: {DismissDirection.startToEnd: widget.dismissThresholds},
 
                     ///gives direction of swipping in argument.
                     onDismissed: (dir) async {
@@ -167,8 +158,7 @@ class _SliderButtonState extends State<SliderButton> {
                       });
 
                       widget.action();
-                      if (widget.vibrationFlag &&
-                          await Vibration.hasVibrator()) {
+                      if (widget.vibrationFlag && (await Vibration.hasVibrator() == true)) {
                         try {
                           Vibration.vibrate(duration: 200);
                         } catch (e) {
@@ -187,13 +177,9 @@ class _SliderButtonState extends State<SliderButton> {
                           Container(
                             height: widget.buttonSize,
                             width: widget.buttonSize,
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  widget.boxShadow,
-                                ],
-                                color: widget.buttonColor,
-                                borderRadius:
-                                    BorderRadius.circular(widget.radius)),
+                            decoration: BoxDecoration(boxShadow: [
+                              widget.boxShadow,
+                            ], color: widget.buttonColor, borderRadius: BorderRadius.circular(widget.radius)),
                             child: Center(child: widget.icon),
                           ),
                     ),
